@@ -27,6 +27,7 @@
 }
 
 #controls-container {
+    display: flex;
     position: absolute;
     background-color: rgba(0, 0, 0, 0.333);
     border: 2px solid black;
@@ -35,10 +36,15 @@
     left: 10px;
     z-index: 1;
     padding: 10px;
+    color: aliceblue;
 }
 
-#controls-container > p {
+#controls-container p {
     margin: 0 auto;
+}
+
+#sliders-container {
+    padding: 10px;
 }
 
 #code-box {

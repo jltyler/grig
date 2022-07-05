@@ -10,11 +10,28 @@
 </head>
 <body>
     <div id="controls-container">
-        <p>Function</p>
-        <textarea id="code-box" rows="12" cols="80"></textarea><br />
-        <button id="submit">Submit</button>
-        <button id="hide">Hide</button>
-        <div id="error-display"></div>
+        <div id="code-container">
+            <p>Code</p>
+            <textarea id="code-box" rows="12" cols="80"></textarea><br />
+            <button id="submit">Submit</button>
+            <button id="hide">Hide</button>
+            <div id="error-display"></div>
+        </div>
+        <div id="sliders-container">
+            <p>Controls</p>
+            <label for="input a">A</label>
+            <input name="input a" id="input-a-range" type="range" min="1" max="100" value="1">
+            <input id="input-a-box" type="number" min="0" value="1"><br />
+            <label for="input b">B</label>
+            <input name="input b" id="input-b-range" type="range" min="1" max="100" value="1">
+            <input id="input-b-box" type="number" min="0" value="1"><br />
+            <label for="input c">C</label>
+            <input name="input c" id="input-c-range" type="range" min="1" max="100" value="1">
+            <input id="input-c-box" type="number" min="0" value="1"><br />
+            <label for="input d">D</label>
+            <input name="input d" id="input-d-range" type="range" min="1" max="100" value="1">
+            <input id="input-d-box" type="number" min="0" value="1"><br />
+        </div>
     </div>
     <button id="show">Show</button>
     <div class="container" id="container">

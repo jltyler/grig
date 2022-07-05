@@ -1,3 +1,12 @@
+import presets from "./presets.js";
+
+const defaultFunction = (i) => {
+    const r = 128 + 127 * Math.sin((i.x / 5) * (i.timestamp / 1000));
+    const g = 128 + 127 * Math.sin(i.y / 3);
+    const b = 128 + 127 * Math.sin(i.timestamp / 2000);
+    return `rgb(${r},${g},${b})`;
+}
+
 function init() {
     console.log("Initializing...");
 
@@ -9,10 +18,21 @@ function init() {
     const hideButton = document.getElementById("hide");
     const errorDisplay = document.getElementById("error-display");
 
-    const width = 48;
-    const height = 30;
-    let border = false;
+    const inputRangeA = document.getElementById("input-a-range");
+    const inputBoxA = document.getElementById("input-a-box");
+    const inputRangeB = document.getElementById("input-b-range");
+    const inputBoxB = document.getElementById("input-b-box");
+    const inputRangeC = document.getElementById("input-c-range");
+    const inputBoxC = document.getElementById("input-c-box");
+    const inputRangeD = document.getElementById("input-d-range");
+    const inputBoxD = document.getElementById("input-d-box");
+
+    // Generate grid
+    const width = 64;
+    const height = 40;
+
     const grid = [];
+
     for (let x = 0; x < width; x++) {
         grid.push([]);
         const col = document.createElement("div");
@@ -26,16 +46,7 @@ function init() {
         containerElement.appendChild(col);
     }
 
-    hideButton.addEventListener("click", (e) => {
-        controlsContainerElement.style.display = 'none';
-        showButton.style.display = 'inline';
-    });
-
-    showButton.addEventListener("click", (e) => {
-        controlsContainerElement.style.display = 'block';
-        showButton.style.display = 'none';
-    });
-
+    // Default code
     codeBoxElement.value = `(i) => {
     const r = 128 + 127 * Math.sin((i.x / 5) * (i.timestamp / 1000));
     const g = 128 + 127 * Math.sin(i.y / 3);
@@ -43,14 +54,61 @@ function init() {
     return \`rgb(\${r},\${g},\${b})\`;
 }`;
 
-    let animate = true;
+    // UI Controls
+    hideButton.addEventListener("click", (e) => {
+        controlsContainerElement.style.display = 'none';
+        showButton.style.display = 'inline';
+    });
 
-    const defaultFunction = (i) => {
-        const r = 128 + 127 * Math.sin((i.x / 5) * (i.timestamp / 1000));
-        const g = 128 + 127 * Math.sin(i.y / 3);
-        const b = 128 + 127 * Math.sin(i.timestamp / 2000);
-        return `rgb(${r},${g},${b})`;
-    }
+    showButton.addEventListener("click", (e) => {
+        controlsContainerElement.style.display = 'flex';
+        showButton.style.display = 'none';
+    });
+
+    let customValueA = 1;
+    let customValueB = 1;
+    let customValueC = 1;
+    let customValueD = 1;
+
+    inputRangeA.addEventListener("input", (e) => {
+        inputBoxA.value = e.target.value;
+        customValueA = parseFloat(e.target.value);
+    });
+
+    inputBoxA.addEventListener("input", (e) => {
+        if (e.target.value < 0) e.target.value = 0;
+        customValueA = parseFloat(e.target.value);
+    });
+
+    inputRangeB.addEventListener("input", (e) => {
+        inputBoxB.value = e.target.value;
+        customValueB = parseFloat(e.target.value);
+    });
+
+    inputBoxB.addEventListener("input", (e) => {
+        if (e.target.value < 0) e.target.value = 0;
+        customValueB = parseFloat(e.target.value);
+    });
+
+    inputRangeC.addEventListener("input", (e) => {
+        inputBoxC.value = e.target.value;
+        customValueC = parseFloat(e.target.value);
+    });
+
+    inputBoxC.addEventListener("input", (e) => {
+        if (e.target.value < 0) e.target.value = 0;
+        customValueC = parseFloat(e.target.value);
+    });
+
+    inputRangeD.addEventListener("input", (e) => {
+        inputBoxD.value = e.target.value;
+        customValueD = parseFloat(e.target.value);
+    });
+
+    inputBoxD.addEventListener("input", (e) => {
+        if (e.target.value < 0) e.target.value = 0;
+        customValueD = parseFloat(e.target.value);
+    });
 
     let handler = defaultFunction;
 
@@ -59,7 +117,7 @@ function init() {
         // console.log('t:', t);
         if (typeof t === "function") handler = t;
         try {
-            t({timestamp: 0, delta: 0, x: 0, y: 0, width: 1, height: 1});
+            t({timestamp: 0, delta: 0, x: 0, y: 0, width: 1, height: 1, a:0, b:0, c:0, d:0});
         } catch (error) {
             errorDisplay.innerText = `${error.name}: ${error.message}\nLine: ${error.lineNumber}`;
             window.setTimeout(() => {errorDisplay.innerText = "";}, 4000);
@@ -84,7 +142,11 @@ function init() {
                     x,
                     y,
                     width,
-                    height
+                    height,
+                    a: customValueA,
+                    b: customValueB,
+                    c: customValueC,
+                    d: customValueD,
                 };
 
                 if (typeof handler === "function") {
@@ -96,10 +158,10 @@ function init() {
                 grid[x][y].style.setProperty("background-color", color);
             }
         }
-        if (animate) window.requestAnimationFrame(animateFrame);
+        window.requestAnimationFrame(animateFrame);
     };
 
-    // Next frame
+    // Start
     window.requestAnimationFrame(animateFrame);
 }
 

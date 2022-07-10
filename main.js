@@ -27,6 +27,9 @@ function init() {
     const inputRangeD = document.getElementById("input-d-range");
     const inputBoxD = document.getElementById("input-d-box");
 
+    const presetSelect = document.getElementById("presets-list");
+    const loadButton = document.getElementById("load");
+
     // Generate grid
     const width = 64;
     const height = 40;
@@ -70,6 +73,7 @@ function init() {
     let customValueC = 1;
     let customValueD = 1;
 
+    // Slider Events
     inputRangeA.addEventListener("input", (e) => {
         inputBoxA.value = e.target.value;
         customValueA = parseFloat(e.target.value);
@@ -77,6 +81,7 @@ function init() {
 
     inputBoxA.addEventListener("input", (e) => {
         if (e.target.value < 0) e.target.value = 0;
+        inputRangeA.value = e.target.value;
         customValueA = parseFloat(e.target.value);
     });
 
@@ -87,6 +92,7 @@ function init() {
 
     inputBoxB.addEventListener("input", (e) => {
         if (e.target.value < 0) e.target.value = 0;
+        inputRangeB.value = e.target.value;
         customValueB = parseFloat(e.target.value);
     });
 
@@ -97,6 +103,7 @@ function init() {
 
     inputBoxC.addEventListener("input", (e) => {
         if (e.target.value < 0) e.target.value = 0;
+        inputRangeC.value = e.target.value;
         customValueC = parseFloat(e.target.value);
     });
 
@@ -107,12 +114,22 @@ function init() {
 
     inputBoxD.addEventListener("input", (e) => {
         if (e.target.value < 0) e.target.value = 0;
+        inputRangeD.value = e.target.value;
         customValueD = parseFloat(e.target.value);
     });
 
+    // UI for presets
+    Object.keys(presets).map((name) => {
+        const opt = document.createElement("option");
+        opt.value = name;
+        opt.innerText = name;
+        presetSelect.appendChild(opt);
+    });
+
+
     let handler = defaultFunction;
 
-    submitElement.addEventListener('click', (e) => {
+    const submitEvent = (e) => {
         const t = eval(codeBoxElement.value);
         // console.log('t:', t);
         if (typeof t === "function") handler = t;
@@ -124,7 +141,14 @@ function init() {
 
             handler = defaultFunction;
         }
+    };
+
+    loadButton.addEventListener("click", (e) => {
+        codeBoxElement.value = presets[presetSelect.value];
+        submitEvent();
     });
+
+    submitElement.addEventListener('click', submitEvent);
 
     let last = performance.now();
 

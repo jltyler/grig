@@ -144,7 +144,25 @@ function init() {
     };
 
     loadButton.addEventListener("click", (e) => {
-        codeBoxElement.value = presets[presetSelect.value];
+        const preset = presets[presetSelect.value];
+        codeBoxElement.value = preset.code;
+
+        customValueA = preset.a;
+        inputBoxA.value = preset.a;
+        inputRangeA.value = preset.a;
+
+        customValueB = preset.b;
+        inputBoxB.value = preset.b;
+        inputRangeB.value = preset.b;
+
+        customValueC = preset.c;
+        inputBoxC.value = preset.c;
+        inputRangeC.value = preset.c;
+
+        customValueD = preset.d;
+        inputBoxD.value = preset.d;
+        inputRangeD.value = preset.d;
+
         submitEvent();
     });
 

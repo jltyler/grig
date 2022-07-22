@@ -31,7 +31,14 @@
             <label for="input d">D</label>
             <input name="input d" id="input-d-range" type="range" min="0" max="100" value="1" step="0.1">
             <input id="input-d-box" type="number" min="0" value="1"><br />
-            <p>Presets</p>
+            <label for="grid-size-list">Grid size</label>
+            <select id="grid-size-list">
+                <option value="huge">Huge</option>
+                <option value="big" selected>Big</option>
+                <option value="medium">Medium</option>
+                <option value="small">Small</option>
+            </select><br />
+            <label for="presets-list">Presets</label>
             <select id="presets-list"></select>
             <button id="load">Load</button>
         </div>

@@ -27,27 +27,36 @@ function init() {
     const inputRangeD = document.getElementById("input-d-range");
     const inputBoxD = document.getElementById("input-d-box");
 
+    const gridSizeSelect = document.getElementById("grid-size-list");
+
     const presetSelect = document.getElementById("presets-list");
     const loadButton = document.getElementById("load");
 
-    // Generate grid
-    const width = 64;
-    const height = 40;
+    let gridWidth = 64;
+    let gridHeight = 40;
 
-    const grid = [];
+    let grid = [];
 
-    for (let x = 0; x < width; x++) {
-        grid.push([]);
-        const col = document.createElement("div");
-        col.classList.add("column");
-        for (let y = 0; y < height; y++) {
-            const box = document.createElement("div");
-            box.classList.add("box");
-            col.appendChild(box);
-            grid[x].push(box);
+    const generateGrid = (width, height) => {
+        gridWidth = width;
+        gridHeight = height;
+        grid = [];
+        containerElement.textContent = "";
+        for (let x = 0; x < width; x++) {
+            grid.push([]);
+            const col = document.createElement("div");
+            col.classList.add("column");
+            for (let y = 0; y < height; y++) {
+                const box = document.createElement("div");
+                box.classList.add("box");
+                col.appendChild(box);
+                grid[x].push(box);
+            }
+            containerElement.appendChild(col);
         }
-        containerElement.appendChild(col);
-    }
+    };
+
+    generateGrid(64,40);
 
     // Default code
     codeBoxElement.value = `(i) => {
@@ -118,6 +127,25 @@ function init() {
         customValueD = parseFloat(e.target.value);
     });
 
+    // UI for grid size
+    gridSizeSelect.addEventListener("input", (e) => {
+        switch (e.target.value) {
+            case "huge":
+                generateGrid(96,60);
+                break;
+            case "medium":
+                generateGrid(40,25);
+                break;
+            case "small":
+                generateGrid(16,10);
+                break;
+            case "big":
+            default:
+                generateGrid(64,40);
+                break;
+        }
+    });
+
     // UI for presets
     Object.keys(presets).map((name) => {
         const opt = document.createElement("option");
@@ -175,16 +203,16 @@ function init() {
         const delta = (timestamp - last) / 1000;
         last = timestamp;
 
-        for (let x = 0; x < width; x++) {
-            for (let y = 0; y < height; y++) {
+        for (let x = 0; x < gridWidth; x++) {
+            for (let y = 0; y < gridHeight; y++) {
                 let color = "black";
                 const inputObject = {
                     timestamp,
                     delta,
                     x,
                     y,
-                    width,
-                    height,
+                    width: gridWidth,
+                    height: gridHeight,
                     a: customValueA,
                     b: customValueB,
                     c: customValueC,

@@ -132,16 +132,20 @@ function init() {
         switch (e.target.value) {
             case "huge":
                 generateGrid(96,60);
+                submitEvent();
                 break;
             case "medium":
                 generateGrid(40,25);
+                submitEvent();
                 break;
             case "small":
                 generateGrid(16,10);
+                submitEvent();
                 break;
             case "big":
             default:
                 generateGrid(64,40);
+                submitEvent();
                 break;
         }
     });
@@ -162,7 +166,7 @@ function init() {
         // console.log('t:', t);
         if (typeof t === "function") handler = t;
         try {
-            t({timestamp: 0, delta: 0, x: 0, y: 0, width: 1, height: 1, a:0, b:0, c:0, d:0});
+            t({timestamp: 1, delta: 0.1, x: 0, y: 0, width: gridWidth, height: gridHeight, a: customValueA, b: customValueB, c: customValueC, d: customValueD});
         } catch (error) {
             errorDisplay.innerText = `${error.name}: ${error.message}\nLine: ${error.lineNumber}`;
             window.setTimeout(() => {errorDisplay.innerText = "";}, 4000);
